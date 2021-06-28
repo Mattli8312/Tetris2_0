@@ -1,0 +1,44 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: black;
+}
+body{
+    display: flex;
+    justify-content: space-around;
+}
+div[id="grid"]{
+    display: flex;
+    flex-wrap: wrap;
+    width: 50vh;
+}
+div[block='true']{
+    width: 5vh;
+    height: 5vh;
+}
+div[type="tile"]{
+    border: 1px solid white;
+    background: none;
+}
+div[type="t_piece"]{
+    background: purple
+}
+div[type="s_piece"]{
+    background: red;
+}
+div[type="z_piece"]{
+    background: green;
+}
+div[type="o_piece"]{
+    background: goldenrod;
+}
+div[type="j_piece"]{
+    background: orange;
+}
+div[type="l_piece"]{
+    background: blue;
+}
+div[type="i_piece"]{
+    background: cyan;
+}
