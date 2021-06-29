@@ -1,3 +1,6 @@
+/**
+ * Pieces to be rendered
+ */
 const t_piece = [[0,1,0],[1,1,1],[0,0,0]]
 const s_piece = [[0,1,1],[1,1,0],[0,0,0]]
 const z_piece = [[1,1,0],[0,1,1],[0,0,0]]
@@ -12,6 +15,13 @@ const pieces = [[t_piece,"t_piece"],
                 [j_piece,"j_piece"],
                 [l_piece,"l_piece"],
                 [i_piece,"i_piece"]];
+/**
+ * Rotate Piece using very simple combinational logic
+ * 1 2 3            3 6 9
+ * 4 5 6    =>      2 5 8
+ * 7 8 9            1 4 7
+ * @param None
+ */
 function Rotate_piece(){
     var result = [];
     for(var a = 0; a < current_piece.length; a++){
@@ -23,7 +33,11 @@ function Rotate_piece(){
     }
     current_piece = result;
 }
-
+/**
+ * Used to render piece in the html doc by accessing the x and y coordinate of 
+ * the piece and rendering pixels corresponding to the shape of the current piece
+ * @param render 
+ */
 function Render_piece(render = true){
     for(var a = 0; a < current_piece.length; a++){
         for(var b = 0; b < current_piece[0].length; b++){
@@ -34,6 +48,11 @@ function Render_piece(render = true){
     }
 }
 
+/**
+ * Utility function used to determine if we collided into the walls, another piece
+ * or the bottom of the game board
+ * @returns A boolean variable seeing if we collided
+ */
 function Collision(){
     for(var a = 0; a < current_piece.length; a++){
         for(var b = 0; b < current_piece[0].length; b++){
