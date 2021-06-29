@@ -22,6 +22,10 @@ function SelectRandom(){
 function Main(){
     //Choose random piece
     SelectRandom();
+    score = 0;
+    y = 0; x = 4;
+    Initialize_board();
+    Render_piece();
     if(clk) clearInterval(clk);
     clk = setInterval(()=>{
         Render_piece(false); y++;
@@ -33,12 +37,7 @@ function Main(){
             ClearRows();
         }
         Render_piece();
-    }, 250);
-    score = 0;
-    y = 0; x = 4;
-    current_piece = t_piece;
-    Initialize_board();
-    Render_piece();
+    }, 200);
 }
 
 window.addEventListener("keydown", (e)=>{

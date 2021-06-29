@@ -39,7 +39,7 @@ function Collision(){
         for(var b = 0; b < current_piece[0].length; b++){
             var string = "#" + (a+y).toString() + (b+x).toString();
             if(current_piece[a][b])
-                if($(string).attr('type') != 'tile' || a >= height){
+                if($(string).attr('type') != 'tile'){
                     return true;
                 }
         }
@@ -49,7 +49,7 @@ function Collision(){
 
 function ClearRows(){
     var stack = [], y = height - 1;
-    for(var a = height - 1; a > -1; a--){
+    for(var a = 0; a < height; a++){
         var curr_row = [];
         for(var b = 0; b < width; b++){
             if($("#" + a.toString() + b.toString()).attr("type") != "tile"){
@@ -57,21 +57,22 @@ function ClearRows(){
             }
         }
         if(curr_row.length > 9){
+            console.log("error")
             for(const c of curr_row)
                 c.attr("type","tile");
         }
         else if(curr_row.length) stack.push(curr_row);
     }
     while(stack.length){
-        var curr_row = stack[0];
-        stack.splice(0,1);
-        if(curr_row[0].attr("type")[1] == y.toString()) { y-- ; continue}
-        else{
-            for(const c of curr_row){
-                var prev_type = c.attr('type'); c.attr("type", "tile");
-                $("#"+y.toString()+c.attr("id")[2]).attr("type", prev_type); 
-            }
-            y--;
+        var curr_row = stack[stack.length-1];
+        stack.pop();
+        if(parseInt(curr_row[0].attr("id")[1]) == y){
+            console.log(y); y--; continue;
         }
+        for(const c of curr_row){
+            let prev_ = c.attr("type"); c.attr("type","tile");
+            $("#"+y.toString()+c.attr("id")[c.attr("id").length - 1]).attr("type", prev_);
+        }
+        y--;
     }
 }
