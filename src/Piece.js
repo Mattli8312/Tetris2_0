@@ -65,7 +65,11 @@ function Collision(){
     }
     return false;
 }
-
+/**
+ * Utility function used to clear any pieces and potential
+ * tetris' and updates the board.
+ * @param None
+ */
 function ClearRows(){
     var stack = [], y = height - 1;
     for(var a = 0; a < height; a++){
