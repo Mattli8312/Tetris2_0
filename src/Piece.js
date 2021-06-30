@@ -1,20 +1,24 @@
 /**
  * Pieces to be rendered
  */
-const t_piece = [[0,1,0],[1,1,1],[0,0,0]]
+//1 permutation
+const o_piece = [[1,1],[1,1]]
+//2 permutations
 const s_piece = [[0,1,1],[1,1,0],[0,0,0]]
 const z_piece = [[1,1,0],[0,1,1],[0,0,0]]
-const o_piece = [[1,1],[1,1]]
+const i_piece = [[0,0,1,0],[0,0,1,0],[0,0,1,0],[0,0,1,0]]
+//4 permutations
 const j_piece = [[1,0,0],[1,1,1],[0,0,0]]
 const l_piece = [[1,1,1],[1,0,0],[0,0,0]]
-const i_piece = [[0,0,1,0],[0,0,1,0],[0,0,1,0],[0,0,1,0]]
-const pieces = [[t_piece,"t_piece"],
-                [s_piece,"s_piece"],
-                [z_piece,"z_piece"],
-                [o_piece,"o_piece"],
-                [j_piece,"j_piece"],
-                [l_piece,"l_piece"],
-                [i_piece,"i_piece"]];
+const t_piece = [[0,1,0],[1,1,1],[0,0,0]]
+
+const pieces = [[t_piece,"t_piece",4],
+                [s_piece,"s_piece",2],
+                [z_piece,"z_piece",2],
+                [o_piece,"o_piece",1],
+                [j_piece,"j_piece",4],
+                [l_piece,"l_piece",4],
+                [i_piece,"i_piece",2]];
 /**
  * Rotate Piece using very simple combinational logic
  * 1 2 3            3 6 9
@@ -38,12 +42,13 @@ function Rotate_piece(){
  * the piece and rendering pixels corresponding to the shape of the current piece
  * @param render 
  */
-function Render_piece(render = true){
+function Render_piece(render = true, testing = false){
     for(var a = 0; a < current_piece.length; a++){
         for(var b = 0; b < current_piece[0].length; b++){
-            var string = "#" + (a+y).toString() + (b+x).toString();
+            var string = "#" + (a+y).toString() + 'a' + (b+x).toString();
             var type = render ? current_type : "tile";
             if(current_piece[a][b]) $(string).attr('type', type);
+            if(testing) console.log($(string));
         }
     }
 }
@@ -56,7 +61,7 @@ function Render_piece(render = true){
 function Collision(){
     for(var a = 0; a < current_piece.length; a++){
         for(var b = 0; b < current_piece[0].length; b++){
-            var string = "#" + (a+y).toString() + (b+x).toString();
+            var string = "#" + (a+y).toString() + 'a' + (b+x).toString();
             if(current_piece[a][b])
                 if($(string).attr('type') != 'tile'){
                     return true;
@@ -75,8 +80,8 @@ function ClearRows(){
     for(var a = 0; a < height; a++){
         var curr_row = [];
         for(var b = 0; b < width; b++){
-            if($("#" + a.toString() + b.toString()).attr("type") != "tile"){
-                curr_row.push($("#" + a.toString() + b.toString()));
+            if($("#" + a.toString() + 'a' + b.toString()).attr("type") != "tile"){
+                curr_row.push($("#" + a.toString() + 'a' + b.toString()));
             }
         }
         if(curr_row.length > 9){
@@ -94,7 +99,7 @@ function ClearRows(){
         }
         for(const c of curr_row){
             let prev_ = c.attr("type"); c.attr("type","tile");
-            $("#"+y.toString()+c.attr("id")[c.attr("id").length - 1]).attr("type", prev_);
+            $("#"+y.toString()+'a'+c.attr("id")[c.attr("id").length - 1]).attr("type", prev_);
         }
         y--;
     }

@@ -2,30 +2,25 @@ const width = 10;
 const height = 20;
 
 var score, current_piece, current_type;
-var x, y;
+var x, y, permutations;
 var clk;
 
 function Initialize_board(){
     for(var i = 0; i < height; i++){
         for(var j = 0; j < width; j++){
-            var tile = $("<div type='tile' block='true'></div>").attr('id', i.toString() + j.toString());
+            var tile = $("<div type='tile' block='true'></div>").attr('id', i.toString() + 'a' + j.toString());
             $("#grid").append(tile);
         }
     }
 }
 
 function SelectRandom(){
-    var sel = Math.floor(Math.random()*7)
-    current_piece = pieces[sel][0]; current_type = pieces[sel][1];
+    var sel = 1//Math.floor(Math.random()*7)
+    current_piece = pieces[sel][0]; current_type = pieces[sel][1], permutations = pieces[sel][2];
+    console.log(permutations);
 }
 
-function Main(){
-    //Choose random piece
-    SelectRandom();
-    score = 0;
-    y = 0; x = 4;
-    Initialize_board();
-    Render_piece();
+function StartClock(frequency){
     if(clk) clearInterval(clk);
     clk = setInterval(()=>{
         Render_piece(false); y++;
@@ -37,7 +32,17 @@ function Main(){
             ClearRows();
         }
         Render_piece();
-    }, 200);
+    }, frequency);
+}
+
+function Main(){
+    //Choose random piece
+    SelectRandom();
+    score = 0;
+    y = 0; x = 4;
+    Initialize_board();
+    Render_piece();
+    // StartClock(200);
 }
 
 window.addEventListener("keydown", (e)=>{

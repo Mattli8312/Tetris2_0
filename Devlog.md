@@ -9,5 +9,9 @@
     - [x] Updating Rows
 
 ## Genetic Algorithm
-- [] Brainstorm weights/conditions for cost functions
-    - []
+- [] Brainstorm heuristics/conditions for cost functions
+    - [] ConnectedHoles
+    - [] Roughness
+    - [] ClearableLines
+    - [] heightSum
+    - [] maxHeight
