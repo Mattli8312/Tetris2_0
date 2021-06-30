@@ -1,3 +1,7 @@
+/**
+ * Imported Functions
+ */
+
 class Agent{
     constructor(){
         //These are the corresponding weights
@@ -29,7 +33,10 @@ class Agent{
                 Rotate_piece();
             }
             while(bound < 4){
-                Rotate_piece(); bound++;
+                Rotate_piece(); bound++; 
+                /**
+                 * For correction so we don't repeat permutations
+                 */
             }
         }
         console.log(count);

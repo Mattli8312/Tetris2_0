@@ -1,6 +1,7 @@
 /**
  * Pieces to be rendered
  */
+
 //1 permutation
 const o_piece = [[1,1],[1,1]]
 //2 permutations
