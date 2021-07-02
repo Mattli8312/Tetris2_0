@@ -1,46 +1,151 @@
 /**
  * Imported Functions
  */
-
 class Agent{
     constructor(){
         //These are the corresponding weights
-        this.connected_holes = Math.floor(Math.random() * -5) + 1;
-        this.roughness = Math.floor(Math.random() * -5) + 1;
-        this.clearable_lines = Math.floor(Math.random() * -5) - 1;
+        // + weights
+        this.connected_holes = Math.floor(Math.random() * 5) + 1;
+        this.roughness = Math.floor(Math.random() * 5) + 1;
         this.height = Math.floor(Math.random() * 5) + 1;
+        // - weights
+        this.clearable_lines = Math.floor(Math.random() * -5) - 1;
+        //Used to store the potential moves and their scores
+        this.potential_moves = [];
+
+        //Game states
+        this.inPlay = false;
+        this.fitness = 0;
     }
+    /**
+     * Used to analyze the heuristic of every move combination
+     */
     /**
      * Center the piece at each of these locations and continue rotating
      * until you don't have a collision: then that becomes one of your
      * potential moves
      * 0 1 2 3 4 5 6 7 8 9 
      */
+    /**
+     * CalculateHeight is used to compute the total height of the board
+     * optimized with binary search
+     */
+    CalculateHeight(){
+        var l = 0, r = 19;
+        while(l <= r){
+            var mid = l + Math.floor((r-l)/2);
+            var exists = false;
+            for(var b = 0; b < width; b++){
+                if($('#'+mid+'a'+b).attr('type') != 'tile') {
+                    exists = true; 
+                    break;
+                }
+            }
+            if(exists) r = mid - 1;
+            else l = mid + 1;
+        }
+        return height - l;
+    }
+    /**
+     * 1 pass system which calculates the number of holes, divits,
+     *  and clearable_lines; Optimized to analyze board within frame 
+     * defined by the current height of the board.
+     */
+    CalculateHoles(row){
+        var divits = 0;
+        var holes = 0, hole_tracker = new Array(10).fill(false);
+        var clearables = 0;
+        /**
+         * To calculate divits, we need to calculate the changes in cell type
+         * To calculate clearables, count the number of tiles that contain ten tetriminos
+         * To calculate the number of holes, We will have to do it dynamically.
+         */
+        for(var i = row; i < height; i++){
+            var count = 0;
+            var valley = false;
+            for(var j = 0; j < width; j++){
+                //Calculate divits
+                var current_tile = $('#' + i + 'a' + j);
+                if(!j && current_tile.attr('type') != 'tile'){
+                    valley = false;
+                }
+                else if(!valley && current_tile.attr('type') == 'tile'){
+                    divits++;
+                    valley = true;
+                }
+                //Calculate holes;
+                if(current_tile.attr('type') != 'tile'){
+                    hole_tracker[j] = true;
+                }
+                else if(hole_tracker[j]){
+                    holes++;
+                    hole_tracker[j] = false;
+                }
+            }
+            if(count == 10) clearables ++;
+        }
+        return {d: divits, h: holes, c: clearables};
+    }
+    CalculateWeights(b){
+        /**@todo */
+        //First calculate the height and multiply by the weight;
+        var current_weight = 0;
+        var current_height = this.CalculateHeight();
+        var rem = this.CalculateHoles(height - current_height);
+        current_weight += current_height * this.height;
+        current_weight += rem.d * this.roughness + rem.h * this.height + rem.c * this.clearable_lines;
+        var move = {i: x, rot: b, weight: current_weight};
+        this.potential_moves.push(move);
+    }
     CalculateMoves(){
+        //Reset previous moves
+        y = 0;
+        this.potential_moves = [];
         Render_piece(false);
-        var count = 0;
         //Base cases: pieces centered between 1 and 8
         //Edge cases: pieces centered at 0 and 9
-        for(var a = -1; a < 9; a++){
-            var bound = (a == -1) || (a == 8) ? 4 : permutations; x = a;
-            for(var b = 0; b < bound; b++){
-                if(!Collision()) {
+        for(var b = 0; b < permutations; b++){
+            for(var a = -2; a < 9; a++){
+                y = 0; x = a;
+                if(!Collision()){
+                    while(!Collision()){ 
+                        y++;
+                    }
+                    y--;
+                    /**
+                     * Now with the new updated board, 
+                     * we will calculate the weights
+                     */
                     Render_piece();
-                    PrintBoard();
-                    count++;
+                    this.CalculateWeights(b);
+                    Render_piece(false);
                 }
-                Render_piece(false);
-                Rotate_piece();
             }
-            while(bound < 4){
-                Rotate_piece(); bound++; 
-                /**
-                 * For correction so we don't repeat permutations
-                 */
-            }
+            Rotate_piece();
         }
-        console.log(count);
+        var result_ = this.OptimalMove();
+        var rot_val = 0;
+        while(x != result_.i){
+            x += result_.i > x ? 1 : -1;
+        }
+        while(rot_val < result_.rot){
+            Rotate_piece();
+            rot_val++;
+        }
+        y = 0;
+        while(!Collision()){ 
+            y++;
+        }
+        y--;
+        Render_piece();
+        SelectRandom();
+    }
+    OptimalMove(){
+        var min_ = null;
+        for(const p of this.potential_moves){
+            if(!min_) min_ = p;
+            else if(p.weight < min_.weight) min_ = p;
+        }
+        return min_;
     }
 }
-var a1 = new Agent();
-a1.CalculateMoves();

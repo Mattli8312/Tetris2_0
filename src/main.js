@@ -15,7 +15,7 @@ function Initialize_board(){
 }
 
 function SelectRandom(){
-    var sel = 6//Math.floor(Math.random()*7)
+    var sel = Math.floor(Math.random()*7)
     current_piece = pieces[sel][0]; current_type = pieces[sel][1], permutations = pieces[sel][2];
     console.log(permutations);
 }

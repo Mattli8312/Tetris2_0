@@ -3,7 +3,7 @@
  */
  function PrintBoard(){
     var board = [];
-    for(var a = 0; a < 4; a++){
+    for(var a = 0; a < height; a++){
         var row = [];
         for(var b = 0; b < width; b++){
             row.push($("#"+a+'a'+b).attr('type') != 'tile' ? '1' : '0');
@@ -12,3 +12,12 @@
     }
     console.log(board);
 }
+
+async function TestAlgorithm(){
+    var a1 = new Agent();
+    for(var a = 0; a < 10; a++){
+        a1.CalculateMoves();
+        await new Promise(resolve => setTimeout(resolve, 500));
+    }
+}
+
