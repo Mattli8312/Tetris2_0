@@ -2,19 +2,19 @@
  * Imported Functions
  */
 class Agent{
-    constructor(){
+    constructor(hybrid = false, holes = 0, rough = 0, height = 0, clears = 0){
         //These are the corresponding weights
         // + weights
-        this.connected_holes = Math.floor(Math.random() * 5) + 1;
-        this.roughness = Math.floor(Math.random() * 5) + 1;
-        this.height = Math.floor(Math.random() * 5) + 1;
+        var factor = 10;
+        this.connected_holes = !hybrid ? Math.floor(Math.random() * factor) + 1 : holes;
+        this.roughness = !hybrid ? Math.floor(Math.random() * factor) + 1 : rough;
+        this.height = !hybrid ? Math.floor(Math.random() * factor) + 1 : height;
         // - weights
-        this.clearable_lines = Math.floor(Math.random() * -5) - 1;
+        this.clearable_lines = !hybrid ? Math.floor(Math.random() * -factor) - 1 : clears;
         //Used to store the potential moves and their scores
         this.potential_moves = [];
-
         //Game states
-        this.inPlay = false;
+        this.inPlay = true;
         this.fitness = 0;
     }
     /**
@@ -102,8 +102,8 @@ class Agent{
         y = 0;
         this.potential_moves = [];
         Render_piece(false);
-        
-        ClearRows();
+        //Check if we cleared a row
+        if(ClearRows()) this.fitness += 100;
         //Base cases: pieces centered between 1 and 8
         //Edge cases: pieces centered at 0 and 9
         var b;
@@ -126,14 +126,17 @@ class Agent{
             }
             Rotate_piece();
         }
+        /**
+         * Check if We are still in play
+         */
         //Auto correct to main position
         while(b < 4){
             Rotate_piece();
             b++;
         }
+        //Obtain the optimal move
         var result_ = this.OptimalMove();
         var rot_val = 0;
-        console.log(result_);
         while(x != result_.i){
             x += result_.i > x ? 1 : -1;
         }

@@ -78,6 +78,7 @@ function Collision(){
  */
 function ClearRows(){
     var stack = [], y = height - 1;
+    var clearing = false;
     for(var a = 0; a < height; a++){
         var curr_row = [];
         for(var b = 0; b < width; b++){
@@ -86,7 +87,7 @@ function ClearRows(){
             }
         }
         if(curr_row.length > 9){
-            console.log("error")
+            clearing = true;
             for(const c of curr_row)
                 c.attr("type","tile");
         }
@@ -104,4 +105,5 @@ function ClearRows(){
         }
         y--;
     }
+    return clearing;
 }

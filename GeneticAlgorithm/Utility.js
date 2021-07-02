@@ -16,9 +16,11 @@
 async function TestAlgorithm(){
     var a1 = new Agent();
     console.log(a1);
-    for(var a = 0; a < 5; a++){
+    while(a1.inPlay){
         a1.CalculateMoves();
-        await new Promise(resolve => setTimeout(resolve, 200));
+        if(a1.CalculateHeight() == height) a1.inPlay = false;
+        await new Promise(resolve => setTimeout(resolve, 100));
     }
+    console.log(a1.fitness);
 }
 
