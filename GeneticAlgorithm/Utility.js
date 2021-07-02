@@ -15,9 +15,10 @@
 
 async function TestAlgorithm(){
     var a1 = new Agent();
-    for(var a = 0; a < 10; a++){
+    console.log(a1);
+    for(var a = 0; a < 5; a++){
         a1.CalculateMoves();
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 200));
     }
 }
 

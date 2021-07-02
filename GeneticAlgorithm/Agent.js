@@ -102,9 +102,12 @@ class Agent{
         y = 0;
         this.potential_moves = [];
         Render_piece(false);
+        
+        ClearRows();
         //Base cases: pieces centered between 1 and 8
         //Edge cases: pieces centered at 0 and 9
-        for(var b = 0; b < permutations; b++){
+        var b;
+        for(b = 0; b < permutations; b++){
             for(var a = -2; a < 9; a++){
                 y = 0; x = a;
                 if(!Collision()){
@@ -123,8 +126,14 @@ class Agent{
             }
             Rotate_piece();
         }
+        //Auto correct to main position
+        while(b < 4){
+            Rotate_piece();
+            b++;
+        }
         var result_ = this.OptimalMove();
         var rot_val = 0;
+        console.log(result_);
         while(x != result_.i){
             x += result_.i > x ? 1 : -1;
         }
