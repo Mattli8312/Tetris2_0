@@ -1,9 +1,20 @@
 const width = 10;
 const height = 20;
+const generation_box = document.getElementById("generation");
+const agent_box = document.getElementById("agent");
+const fitness_box = document.getElementById("fitness");
 
 var score, current_piece, current_type;
 var x, y, permutations;
 var clk;
+
+function Reset_board(){
+    for(var a = 0; a < height; a++){
+        for(var b = 0; b < width; b++){
+            $('#' + a + 'a' + b).attr('type', 'tile');
+        }
+    }
+}
 
 function Initialize_board(){
     for(var i = 0; i < height; i++){

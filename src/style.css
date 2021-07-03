@@ -3,10 +3,21 @@
     padding: 0;
     box-sizing: border-box;
     background: black;
+    color: white;
 }
 body{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: bottom;
+}
+div[id="stats"]{
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    font-size: 2em;
+}
+div[id="stats"] div{
+    margin: 0.5em;
 }
 div[id="grid"]{
     display: flex;

@@ -2,19 +2,19 @@
  * Imported Functions
  */
 class Agent{
-    constructor(hybrid = false, holes = 0, rough = 0, height = 0, clears = 0){
+    constructor(hybrid = false, newgenes = {ch: 0, r: 0, h: 0, cl: 0}){
         //These are the corresponding weights
         // + weights
         var factor = 10;
-        this.connected_holes = !hybrid ? Math.floor(Math.random() * factor) + 1 : holes;
-        this.roughness = !hybrid ? Math.floor(Math.random() * factor) + 1 : rough;
-        this.height = !hybrid ? Math.floor(Math.random() * factor) + 1 : height;
+        this.connected_holes = !hybrid ? (Math.random() * factor).toPrecision(4): newgenes.h;
+        this.roughness = !hybrid ? (Math.random() * factor).toPrecision(4): newgenes.r;
+        this.height = !hybrid ? (Math.random() * factor).toPrecision(4): newgenes.h;
         // - weights
-        this.clearable_lines = !hybrid ? Math.floor(Math.random() * -factor) - 1 : clears;
+        this.clearable_lines = !hybrid ? (Math.random() * -1 * factor).toPrecision(4): newgenes.cl;
         //Used to store the potential moves and their scores
         this.potential_moves = [];
         //Game states
-        this.inPlay = true;
+        this.inPlay = false;
         this.fitness = 0;
     }
     /**
