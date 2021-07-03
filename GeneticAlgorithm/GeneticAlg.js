@@ -32,13 +32,10 @@ class GeneticAlgorithm{
          * Fitnesses, hence we give those agents higher probabilities of maiting
          */
         for(var a = 0; a < this.popsize; a++){
-            // var probability_size = this.selector_array.length;
-            // var mom = this.selector_array[Math.floor(Math.random() * probability_size)];
-            // var dad = this.selector_array[Math.floor(Math.random() * probability_size)];
-            // this.CrossOver(mom, dad);
-            var best_agent = this.agents[this.agents.length - 1];
-            var new_gene = {ch: best_agent.connected_holes, r: best_agent.roughness, h: best_agent.height, cl: best_agent.clearable_lines};
-            this.newgenes.push(new_gene);
+            var probability_size = this.selector_array.length;
+            var mom = this.selector_array[Math.floor(Math.random() * probability_size)];
+            var dad = this.selector_array[Math.floor(Math.random() * probability_size)];
+            this.CrossOver(mom, dad);
         }
         this.agents = [];
     }

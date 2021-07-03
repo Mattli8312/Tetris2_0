@@ -16,6 +16,7 @@ class Agent{
         //Game states
         this.inPlay = false;
         this.fitness = 0;
+        this.moves = 0;
     }
     /**
      * Used to analyze the heuristic of every move combination
@@ -147,7 +148,8 @@ class Agent{
         }
         y--;
         Render_piece();
-        SelectRandom();
+        this.moves = SeedRandom(1, this.moves);
+        this.moves++;
         this.potential_moves = [];
         y = 0; x = 4;
         Render_piece();

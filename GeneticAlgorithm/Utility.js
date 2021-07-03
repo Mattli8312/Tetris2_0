@@ -14,20 +14,26 @@
 }
 
 async function TestAlgorithm(){
-    var a1 = new GeneticAlgorithm();
+    var a1 = new GeneticAlgorithm(5, 20);
     for(var g = 0; g < a1.gens; g++){
         generation_box.innerHTML = "Generation: " + (g+1);
         for(var i = 0; i < a1.popsize; i++){
             Reset_board();
             Initialize_board();
+            SelectRandom();
+            console.log(current_piece);
             agent_ = !g ? new Agent() : new Agent(true, a1.newgenes[i]);
             agent_.inPlay = true;
             agent_box.innerHTML = "Agent: " + (i + 1);
+            clearables.innerHTML = "Clearable: " + agent_.clearable_lines;
+            holes.innerHTML = "Holes: " + agent_.connected_holes;
+            roughness.innerHTML = "Roughness: " + agent_.roughness;
+            height_.innerHTML = "Height: " + agent_.height;
             while(agent_.inPlay){
                 fitness_box.innerHTML = "Fitness: " + agent_.fitness;
                 agent_.CalculateMoves();
                 if(agent_.CalculateHeight() == height) agent_.inPlay = false;
-                await new Promise(resolve => setTimeout(resolve, 5000));
+                await new Promise(resolve => setTimeout(resolve, 25));
             }
             console.log(agent_.fitness);
             a1.agents.push(agent_);

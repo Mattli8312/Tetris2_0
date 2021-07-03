@@ -3,6 +3,10 @@ const height = 20;
 const generation_box = document.getElementById("generation");
 const agent_box = document.getElementById("agent");
 const fitness_box = document.getElementById("fitness");
+const clearables = document.getElementById("clearables");
+const holes = document.getElementById("holes");
+const roughness = document.getElementById("roughness");
+const height_ = document.getElementById("height");
 
 var score, current_piece, current_type;
 var x, y, permutations;
@@ -28,6 +32,13 @@ function Initialize_board(){
 function SelectRandom(){
     var sel = Math.floor(Math.random()*7)
     current_piece = pieces[sel][0]; current_type = pieces[sel][1], permutations = pieces[sel][2];
+    return sel;
+}
+
+function SeedRandom(sel, inc){
+    sel = (sel + inc) % 7;
+    current_piece = pieces[sel][0]; current_type = pieces[sel][1], permutations = pieces[sel][2];
+    return sel;
 }
 
 function StartClock(frequency){
@@ -47,11 +58,12 @@ function StartClock(frequency){
 
 function Main(){
     //Choose random piece
-    SelectRandom();
+    // SelectRandom();
+    SeedRandom(1,1);
     score = 0;
     y = 0; x = 4;
     Initialize_board();
-    Render_piece();
+    // Render_piece();
     // StartClock(200);
 }
 
