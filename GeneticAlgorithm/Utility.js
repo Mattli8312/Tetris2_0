@@ -27,11 +27,16 @@ async function TestAlgorithm(){
                 fitness_box.innerHTML = "Fitness: " + agent_.fitness;
                 agent_.CalculateMoves();
                 if(agent_.CalculateHeight() == height) agent_.inPlay = false;
-                await new Promise(resolve => setTimeout(resolve, 25));
+                await new Promise(resolve => setTimeout(resolve, 5000));
             }
             console.log(agent_.fitness);
             a1.agents.push(agent_);
         }
         a1.Select();
     }
+}
+
+var agent_sub = new Agent();
+function SubTest(){
+    agent_sub.CalculateMoves();
 }

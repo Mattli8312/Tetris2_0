@@ -98,9 +98,6 @@ class Agent{
         this.potential_moves.push(move);
     }
     CalculateMoves(){
-        //Reset previous moves
-        y = 0;
-        this.potential_moves = [];
         Render_piece(false);
         //Check if we cleared a row
         if(ClearRows()) this.fitness += 100;
@@ -151,6 +148,9 @@ class Agent{
         y--;
         Render_piece();
         SelectRandom();
+        this.potential_moves = [];
+        y = 0; x = 4;
+        Render_piece();
     }
     OptimalMove(){
         var min_ = null;
